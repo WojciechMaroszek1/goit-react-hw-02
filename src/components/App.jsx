@@ -1,29 +1,48 @@
-import { useState } from 'react';
-import reactLogo from '../assets/react.svg';
-import viteLogo from '../public/vite.svg';
-import '../components/App.css';
+import { useState, useEffect } from 'react';
+import './App.module.css';
+import Description from './Description/Description.jsx';
+import Feedback from './Feedback/Feedback.jsx';
+import Options from './Options/Options.jsx';
+import Notification from './Notifications/Notifications.jsx';
+
+const initialValue = {
+	good: 0,
+	neutral: 0,
+	bad: 0,
+};
 
 function App() {
-	const [count, setCount] = useState(0);
+	const [rate, setRate] = useState(() => {
+		const savedRates = localStorage.getItem('Feedback rates');
+		if (savedRates !== null) {
+			return JSON.parse(savedRates);
+		} else {
+			return initialValue;
+		}
+	});
+
+	const updateFeedback = x => {
+		setRate({ ...rate, [x]: rate[x] + 1 });
+	};
+
+	const totalFeedback = rate.good + rate.neutral + rate.bad;
+	const percentRate = Math.round(((rate.good + rate.neutral) / totalFeedback) * 100);
+
+	const resetRate = () => {
+		setRate(initialValue);
+		localStorage.clear();
+	};
+
+	useEffect(() => {
+		localStorage.setItem('Feedback rates', JSON.stringify(rate));
+	}, [rate]);
 
 	return (
 		<>
-			<div>
-				<a href="https://vitejs.dev" target="_blank">
-					<img src={viteLogo} className="logo" alt="Vite logo" />
-				</a>
-				<a href="https://react.dev" target="_blank">
-					<img src={reactLogo} className="logo react" alt="React logo" />
-				</a>
-			</div>
-			<h1>Vite + React</h1>
-			<div className="card">
-				<button onClick={() => setCount(count => count + 1)}>count is {count}</button>
-				<p>
-					Edit <code>src/App.jsx</code> and save to test HMR
-				</p>
-			</div>
-			<p className="read-the-docs">Click on the Vite and React logos to learn more</p>
+			<Description />
+			<Options updateFeedback={updateFeedback} resetRate={resetRate} />
+			<Feedback rate={rate} totalFeedback={totalFeedback} percentRate={percentRate} />
+			<Notification rate={rate} />
 		</>
 	);
 }
