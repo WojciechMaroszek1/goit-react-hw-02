@@ -5,7 +5,7 @@ import Feedback from './Feedback/Feedback.jsx';
 import Options from './Options/Options.jsx';
 import Notification from './Notifications/Notifications.jsx';
 
-const initialValue = {
+const baseValue = {
 	good: 0,
 	neutral: 0,
 	bad: 0,
@@ -17,19 +17,19 @@ function App() {
 		if (savedRates !== null) {
 			return JSON.parse(savedRates);
 		} else {
-			return initialValue;
+			return baseValue;
 		}
 	});
 
-	const updateFeedback = x => {
-		setRate({ ...rate, [x]: rate[x] + 1 });
+	const updateFeedback = e => {
+		setRate({ ...rate, [e]: rate[e] + 1 });
 	};
 
 	const totalFeedback = rate.good + rate.neutral + rate.bad;
 	const percentRate = Math.round(((rate.good + rate.neutral) / totalFeedback) * 100);
 
 	const resetRate = () => {
-		setRate(initialValue);
+		setRate(baseValue);
 		localStorage.clear();
 	};
 
