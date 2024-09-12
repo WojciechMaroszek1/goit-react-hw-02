@@ -15,21 +15,25 @@ const Options = ({ updateFeedback, resetRate }) => {
 	};
 
 	return (
-		<div className={css.buttons_box}>
-			<button className={css.button} onClick={() => handleButtonClick(updateFeedback('good'))}>
-				Good
-			</button>
-			<button className={css.button} onClick={() => handleButtonClick(updateFeedback('neutral'))}>
-				Neutral
-			</button>
-			<button className={css.button} onClick={() => handleButtonClick(updateFeedback('bad'))}>
-				Bad
-			</button>
-			{show && (
-				<button className={css.button} onClick={() => handleContainerClick(resetRate('reset'))}>
-					Reset
+		<div>
+			<div className={css.buttons_box}>
+				<button className={css.button} onClick={() => handleButtonClick(updateFeedback('good'))}>
+					Good
 				</button>
-			)}
+				<button className={css.button} onClick={() => handleButtonClick(updateFeedback('neutral'))}>
+					Neutral
+				</button>
+				<button className={css.button} onClick={() => handleButtonClick(updateFeedback('bad'))}>
+					Bad
+				</button>
+			</div>
+			<div className={css.button_reset}>
+				{show && (
+					<button className={css.button} onClick={() => handleContainerClick(resetRate('reset'))}>
+						Reset
+					</button>
+				)}
+			</div>
 		</div>
 	);
 };

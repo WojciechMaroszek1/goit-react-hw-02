@@ -17,3 +17,8 @@
 	justify-content: center;
 	gap: 20px;
 }
+.button_reset {
+	margin-top: 20px;
+	display: flex;
+	justify-content: center;
+}
